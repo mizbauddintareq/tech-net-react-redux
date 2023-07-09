@@ -7,18 +7,17 @@ import { useGetProductsQuery } from '@/redux/api/apiSlice';
 import {
   setPriceRange,
   toggleState,
-} from '@/redux/feature/products/productSlice';
+} from '@/redux/features/products/productSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { IProduct } from '@/types/globalTypes';
+import { useEffect, useState } from 'react';
 
 export default function Products() {
   const { data, isLoading, error } = useGetProductsQuery(undefined);
 
   const { toast } = useToast();
 
-  const { priceRange, status } = useAppSelector(
-    (state: { product: any }) => state.product
-  );
+  const { priceRange, status } = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
 
   const handleSlider = (value: number[]) => {
