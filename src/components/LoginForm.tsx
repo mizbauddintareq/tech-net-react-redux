@@ -10,7 +10,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -30,16 +30,17 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || '/';
   const onSubmit = (data: LoginFormInputs) => {
     dispatch(loginUser({ email: data.email, password: data.password }));
   };
 
   useEffect(() => {
     if (user.email && !isLoading) {
-      navigate('/');
+      navigate(from, { replace: true });
     }
-  }, [user.email, isLoading]);
+  }, [from, isLoading, navigate, user.email]);
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
